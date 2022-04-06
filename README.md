@@ -22,7 +22,13 @@ generate a local input file:
 echo -e "metric\tvalue\na\t1" > blast_hits.csv
 ```
 
+create a conda env:
+```
+conda create -n thisenv r-base
+``
+
 ## Running the pipeline
 ```
+
 snakemake -c 1  -j 1 --use-singularity  --use-conda  --config blast=$PWD/blast_hits.csv  anno=$HOME/remote  --directory ./results/ --keep-going
 ```
