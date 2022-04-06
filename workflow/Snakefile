@@ -1,0 +1,66 @@
+import os
+
+rule all:
+    input:
+        "result.txt.remote",
+        "result.txt.remote.conda",
+        "result.txt.cp",
+        "result.txt.ln",
+
+rule link_and_copy_remote_db_files:
+    input:
+        anno=config["anno"],
+    output:
+        anno_cp="anno.cp",
+        anno_ln="anno.ln"
+    shell:
+        """
+        ln -s {input.anno} {output.anno_ln}
+        cp {input.anno} {output.anno_cp}
+        """
+
+rule inputs_with_symlinks:
+    input:
+        blast=config["blast"],
+        annotation="anno.ln",
+    output:
+        annotations="result.txt.ln",
+    container:
+        "docker://rocker/tidyverse:4.1"
+    log:
+        "logs/parse_blast_hits.log",
+    script:
+        "toy.R"
+
+rule inputs_with_remote_files:
+    input:
+        blast=config["blast"],
+        annotation=config["anno"],
+    output:
+        annotations="result.txt.remote",
+    container:
+        "docker://rocker/tidyverse:4.1"
+    script:
+        "toy.R"
+
+rule inputs_with_copies:
+    input:
+        blast=config["blast"],
+        annotation="anno.cp",
+    output:
+        annotations="result.txt.cp",
+    container:
+        "docker://rocker/tidyverse:4.1"
+    script:
+        "toy.R"
+
+rule inputs_with_remote_files_conda:
+    input:
+        blast=config["blast"],
+        annotation=config["anno"],
+    output:
+        annotations="result.txt.remote.conda",
+    conda:
+        "thisenv"
+    script:
+        "toy.R"

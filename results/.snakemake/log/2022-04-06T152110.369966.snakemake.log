@@ -1,0 +1,104 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                               count    min threads    max threads
+------------------------------  -------  -------------  -------------
+all                                   1              1              1
+inputs_with_copies                    1              1              1
+inputs_with_remote_files              1              1              1
+inputs_with_remote_files_conda        1              1              1
+inputs_with_symlinks                  1              1              1
+link_and_copy_remote_db_files         1              1              1
+total                                 6              1              1
+
+Select jobs to execute...
+
+[Wed Apr  6 15:21:11 2022]
+rule inputs_with_remote_files:
+    input: /lila/home/watersn/GitHub/tmp/blast_hits.csv, /home/watersn/remote.txt
+    output: result.txt.remote
+    jobid: 1
+    resources: tmpdir=/scratch
+
+Activating singularity image /data/brinkvd/.singularity/b296ec47d765f2deaedf725345668581.simg
+[Wed Apr  6 15:21:18 2022]
+Error in rule inputs_with_remote_files:
+    jobid: 1
+    output: result.txt.remote
+
+RuleException:
+CalledProcessError in line 44 of /lila/home/watersn/GitHub/tmp/workflow/Snakefile:
+Command ' singularity  exec --home /lila/home/watersn/GitHub/tmp/results  /data/brinkvd/.singularity/b296ec47d765f2deaedf725345668581.simg bash -c 'set -euo pipefail;  Rscript --vanilla /lila/home/watersn/GitHub/tmp/results/.snakemake/scripts/tmpgjeeuef5.toy.R'' returned non-zero exit status 1.
+  File "/lila/home/watersn/GitHub/tmp/workflow/Snakefile", line 44, in __rule_inputs_with_remote_files
+  File "/home/watersn/miniconda3/envs/snake/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+Job failed, going on with independent jobs.
+Select jobs to execute...
+
+[Wed Apr  6 15:21:18 2022]
+rule inputs_with_remote_files_conda:
+    input: /lila/home/watersn/GitHub/tmp/blast_hits.csv, /home/watersn/remote.txt
+    output: result.txt.remote.conda
+    jobid: 2
+    resources: tmpdir=/scratch
+
+Activating conda environment: thisenv
+[Wed Apr  6 15:21:25 2022]
+Finished job 2.
+1 of 6 steps (17%) done
+Select jobs to execute...
+
+[Wed Apr  6 15:21:25 2022]
+rule link_and_copy_remote_db_files:
+    input: /home/watersn/remote.txt
+    output: anno.cp, anno.ln
+    jobid: 4
+    resources: tmpdir=/scratch
+
+[Wed Apr  6 15:21:25 2022]
+Finished job 4.
+2 of 6 steps (33%) done
+Select jobs to execute...
+
+[Wed Apr  6 15:21:25 2022]
+rule inputs_with_copies:
+    input: /lila/home/watersn/GitHub/tmp/blast_hits.csv, anno.cp
+    output: result.txt.cp
+    jobid: 3
+    resources: tmpdir=/scratch
+
+Activating singularity image /data/brinkvd/.singularity/b296ec47d765f2deaedf725345668581.simg
+[Wed Apr  6 15:21:26 2022]
+Finished job 3.
+3 of 6 steps (50%) done
+Select jobs to execute...
+
+[Wed Apr  6 15:21:26 2022]
+rule inputs_with_symlinks:
+    input: /lila/home/watersn/GitHub/tmp/blast_hits.csv, anno.ln
+    output: result.txt.ln
+    log: logs/parse_blast_hits.log
+    jobid: 5
+    resources: tmpdir=/scratch
+
+Activating singularity image /data/brinkvd/.singularity/b296ec47d765f2deaedf725345668581.simg
+[Wed Apr  6 15:21:26 2022]
+Error in rule inputs_with_symlinks:
+    jobid: 5
+    output: result.txt.ln
+    log: logs/parse_blast_hits.log (check log file(s) for error message)
+
+RuleException:
+CalledProcessError in line 33 of /lila/home/watersn/GitHub/tmp/workflow/Snakefile:
+Command ' singularity  exec --home /lila/home/watersn/GitHub/tmp/results  /data/brinkvd/.singularity/b296ec47d765f2deaedf725345668581.simg bash -c 'set -euo pipefail;  Rscript --vanilla /lila/home/watersn/GitHub/tmp/results/.snakemake/scripts/tmpf23u8gj2.toy.R'' returned non-zero exit status 1.
+  File "/lila/home/watersn/GitHub/tmp/workflow/Snakefile", line 33, in __rule_inputs_with_symlinks
+  File "/home/watersn/miniconda3/envs/snake/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+Job failed, going on with independent jobs.
+Exiting because a job execution failed. Look above for error message
+BUG: Out of jobs ready to be started, but not all files built yet. Please check https://github.com/snakemake/snakemake/issues/823 for more information.
+Remaining jobs:
+ - all: 
+ - inputs_with_remote_files: result.txt.remote
+ - inputs_with_symlinks: result.txt.ln
+Complete log: .snakemake/log/2022-04-06T152110.369966.snakemake.log
