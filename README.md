@@ -30,5 +30,12 @@ conda create -n thisenv r-base
 ## Running the pipeline
 ```
 
-snakemake -c 1  -j 1 --use-singularity  --use-conda  --config blast=$PWD/blast_hits.csv  anno=$HOME/remote  --directory ./results/ --keep-going
+snakemake -c 1  -j 1 --use-singularity  --use-conda  --config blast=$PWD/blast_hits.csv  anno=$HOME/remote.txt  --directory ./results/ --keep-going
 ```
+
+## Solution 1: Running with remote location:
+```
+snakemake -c 1  -j 1 --use-singularity  --use-conda  --config blast=$PWD/blast_hits.csv  anno=$HOME/remote.txt  --directory ./results/ --keep-going --singularity-args "-B HOME"
+```
+
+## Solution 2: Hard-linking
